@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "-- CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'PA55W0rD@2024';\n\n-- CREATE DATABASE SCOPED CREDENTIAL [WorkspaceIdentity] WITH IDENTITY = 'Managed Identity';\n-- GO\n\n/*\nCREATE EXTERNAL FILE FORMAT [ParquetFF] WITH (\n    FORMAT_TYPE = PARQUET,\n    DATA_COMPRESSION = 'org.apache.hadoop.io.compress.SnappyCodec'\n);\nGO\n\nCREATE EXTERNAL DATA SOURCE [SynapseSqlReadable] WITH (\n    LOCATION = 'https://asastoragegen2.blob.core.windows.net/',\n    CREDENTIAL = [WorkspaceIdentity]\n);\nGO\n\n\nCREATE EXTERNAL TABLE [Customers]\n(\n    [CustomerID] [int] NULL,\n\t[NameStyle] bit NULL,\n\t[Title] [nvarchar](8) NULL,\n\t[FirstName] [varchar](100) NULL,\n\t[MiddleName] [varchar](100) NULL,\n\t[LastName] [varchar](100) NULL,\n\t[Suffix] [nvarchar](10) NULL,\n\t[CompanyName] [nvarchar](128) NULL,\n\t[SalesPerson] [nvarchar](256) NULL,\n\t[EmailAddress] [nvarchar](50) NULL,\n\t[Phone] [varchar](50) NULL,\n\t[PasswordHash] [varchar](128) NULL,\n\t[PasswordSalt] [varchar](10) NULL,\n\t[rowguid] [uniqueidentifier] NULL,\n\t[ModifiedDate] [datetime] NULL\n)  \nWITH (\n    LOCATION = '/data/advworks/Customers.parquet',\n    DATA_SOURCE = SynapseSqlReadable,  \n    FILE_FORMAT = ParquetFF\n)\nGO\n\n\nCREATE EXTERNAL FILE FORMAT CsvFF\nWITH (\n    FORMAT_TYPE = DELIMITEDTEXT,\n    FORMAT_OPTIONS (\n        FIELD_TERMINATOR = ','\n        )\n);\n\n\n\n\nCREATE EXTERNAL TABLE [CustomersAggregation]\nWITH (\n    LOCATION = '/reports/customers',\n    DATA_SOURCE = SynapseSqlReadable,\n    FILE_FORMAT = CsvFF\n)\nAS \nSELECT Title, COUNT(1) AS [Count] FROM Customers GROUP BY Title ORDER BY COUNT(1) DESC;\n\n*/\n\n\n\nCREATE VIEW vw_SelectCustmers AS \n SELECT Title, COUNT(1) AS [Count] FROM Customers GROUP BY Title;\n\nCREATE PROCEDURE usp_CustomerAggregation AS\nBEGIN\nDROP EXTERNAL TABLE [CustomersAggregation];\nCREATE EXTERNAL TABLE [CustomersAggregation]\nWITH (\n    LOCATION = '/reports/customers',\n    DATA_SOURCE = SynapseSqlReadable,\n    FILE_FORMAT = CsvFF\n)\nAS \nSELECT Title, COUNT(1) AS [Count] FROM Customers GROUP BY Title ORDER BY COUNT(1) DESC;\nEND\n\nINSERT INTO CustomersAggregation (Title, [Count]) SELECT Title, COUNT(1) AS [Count] FROM Customers GROUP BY Title ORDER BY COUNT(1) DESC;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "AsaSqlAdvWorks",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,27 @@
+{
+	"name": "AzureSqlCustomerAggregation",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AsaSqlAdvWorksLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Title",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Count",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CustomersAggregation"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

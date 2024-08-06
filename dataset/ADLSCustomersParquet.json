@@ -1,0 +1,22 @@
+{
+	"name": "ADLSCustomersParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "asaadvworks-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Customers.parquet",
+				"folderPath": "advworks",
+				"fileSystem": "data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

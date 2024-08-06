@@ -1,0 +1,17 @@
+{
+	"name": "SelectCustomersFromParquet",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nALTER PROCEDURE usp_SELECT_Customers \nAS BEGIN\nSELECT\n    TOP 100 *\nFROM\n    Customers\nEND\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "AsaSqlAdvWorks",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,42 @@
+{
+	"name": "CustomersAggregateCsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "asaadvworks-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"timestamp": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "report-@{dataset().timestamp}.csv",
+					"type": "Expression"
+				},
+				"folderPath": "customers",
+				"fileSystem": "reports"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Title",
+				"type": "String"
+			},
+			{
+				"name": "Count",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}
